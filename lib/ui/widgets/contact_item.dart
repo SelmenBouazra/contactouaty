@@ -1,6 +1,8 @@
 import 'package:contactouaty/data/contact.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/contact_option.dart';
+import '../../local/contact_db.dart';
 import 'my_card.dart';
 
 class ContactItem extends StatelessWidget {
@@ -8,16 +10,24 @@ class ContactItem extends StatelessWidget {
 
   final Contact contact;
 
+  Future<List<ContactOption>> getOptions(int? id) async {
+    return await ContactDataBase.instance.getAllOption(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
+          List<ContactOption> options = await getOptions(contact.id);
+          Contact contactWithOptions =
+              Contact(null, contact.name, contact.job, options);
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => MyCard(contact: contact),
+              builder: (context) => MyCard(contact: contactWithOptions),
             ),
           );
         },

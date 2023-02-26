@@ -1,11 +1,12 @@
 import 'package:contactouaty/data/contact_option.dart';
 
 class Contact {
+  final int? id;
   final String name;
   final String job;
   final List<ContactOption> contactOptions;
 
-  Contact(this.name, this.job, this.contactOptions);
+  Contact(this.id, this.name, this.job, this.contactOptions);
 
   List<Map<String, dynamic>> contactOptionsToMap(
       List<ContactOption> contactOptions) {
@@ -27,6 +28,7 @@ class Contact {
 
   Map<String, dynamic> toMap2() {
     return {
+      'id': id,
       'name': name,
       'job': job,
     };
@@ -39,13 +41,13 @@ class Contact {
             ContactOption.fromJson(contactOptionsObject))
         .toList();
 
-    return Contact(
-        json['name'] as String, json['job'] as String, contactOptionsObjects);
+    return Contact(json['id'] as int?, json['name'] as String,
+        json['job'] as String, contactOptionsObjects);
   }
 
   factory Contact.fromJson2(dynamic json) {
-    return Contact(json['name'] as String, json['job'] as String,
-        [ContactOption("name", "url", "image")]);
+    return Contact(json['id'] as int?, json['name'] as String,
+        json['job'] as String, [ContactOption("name", "url", "image")]);
   }
 
   @override

@@ -26,25 +26,22 @@ class _CreateCardPageState extends State<CreateCardPage> {
   final TextEditingController whatsUpController = TextEditingController();
 
   Contact _onCreateCardClick() {
-    List<ContactOption> contacts = List.empty(growable: true);
+    final contacts = [
+      if (facebookController.text.isNotEmpty)
+        ContactOption("Facebook", facebookController.text, "facebook.png"),
+      if (instagramController.text.isNotEmpty)
+        ContactOption("Instagram", instagramController.text, "instagram.png"),
+      if (tiktokController.text.isNotEmpty)
+        ContactOption("tiktok", tiktokController.text, "tiktok.png"),
+      if (emailController.text.isNotEmpty)
+        ContactOption("Email", emailController.text, "gmail.png"),
+      if (linkedInController.text.isNotEmpty)
+        ContactOption("linkedin", linkedInController.text, "linkedin.png"),
+      if (whatsUpController.text.isNotEmpty)
+        ContactOption("WhatsApp", whatsUpController.text, "WhatsApp.png")
+    ];
 
-    contacts.add(
-        ContactOption("Facebook", facebookController.text, "facebook.png"));
-
-    contacts.add(
-        ContactOption("Instagram", instagramController.text, "instagram.png"));
-
-    contacts.add(ContactOption("tiktok", tiktokController.text, "tiktok.png"));
-
-    contacts.add(ContactOption("Email", emailController.text, "gmail.png"));
-
-    contacts.add(
-        ContactOption("linkedin", linkedInController.text, "linkedin.png"));
-
-    contacts
-        .add(ContactOption("whatsApp", whatsUpController.text, "WhatsApp.png"));
-
-    return Contact(nameController.text, jobController.text, contacts);
+    return Contact(null, nameController.text, jobController.text, contacts);
   }
 
   Future<void> _addUserCard(Contact contact) async {

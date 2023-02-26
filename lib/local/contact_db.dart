@@ -7,7 +7,7 @@ import '../data/contact.dart';
 class ContactDataBase {
   static const String _databaseName = 'my_database.db';
   static const String _contactTableName = 'contact';
-  static const String _optionTableName = 'contact';
+  static const String _optionTableName = 'option_contact';
   static const int _databaseVersion = 1;
 
   static Database? _database;
@@ -46,6 +46,7 @@ class ContactDataBase {
           CREATE TABLE $_optionTableName (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             contact_id INTEGER,
+            name TEXT, 
             url TEXT, 
             image TEXT,
             FOREIGN KEY (contact_id) REFERENCES $_contactTableName(id) ON DELETE CASCADE
@@ -53,10 +54,11 @@ class ContactDataBase {
         ''');
   }
 
-  Future<int> insertContact(Contact contact) async {
+  Future insertContact(Contact contact) async {
     final Database db = await instance.database;
-    return await db.insert(_contactTableName, contact.toMap2(),
+    var id = await db.insert(_contactTableName, contact.toMap2(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+    insertOption(id, contact.contactOptions);
   }
 
   Future<List<Contact>> getAllContacts() async {
@@ -65,15 +67,18 @@ class ContactDataBase {
     return List.generate(maps.length, (i) => Contact.fromJson2(maps[i]));
   }
 
-  Future<int> insertOption(ContactOption contactOption) async {
+  Future insertOption(int id, List<ContactOption> contactOptions) async {
     final Database db = await instance.database;
-    return await db.insert(_optionTableName, contactOption.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    for (var option in contactOptions) {
+      await db.insert(_optionTableName, option.toMap2(id),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    }
   }
 
-  Future<List<ContactOption>> getAllOption() async {
+  Future<List<ContactOption>> getAllOption(int? id) async {
     final Database db = await instance.database;
-    final List<Map<String, dynamic>> maps = await db.query(_optionTableName);
+    final List<Map<String, dynamic>> maps = await db
+        .query(_optionTableName, where: 'contact_id = ?', whereArgs: [id]);
     return List.generate(maps.length, (i) => ContactOption.fromJson(maps[i]));
   }
 }
