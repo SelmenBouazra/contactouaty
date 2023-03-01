@@ -6,9 +6,11 @@ import '../../local/contact_db.dart';
 import 'my_card.dart';
 
 class ContactItem extends StatelessWidget {
-  const ContactItem({Key? key, required this.contact}) : super(key: key);
+  const ContactItem({Key? key, required this.contact, required this.callback})
+      : super(key: key);
 
   final Contact contact;
+  final VoidCallback callback;
 
   Future<List<ContactOption>> getOptions(int? id) async {
     return await ContactDataBase.instance.getAllOption(id);
@@ -49,10 +51,15 @@ class ContactItem extends StatelessWidget {
                   color: Colors.white,
                   fontFamily: "SourceSansPro"),
             ),
-            const Icon(
-              Icons.list,
-              color: Colors.grey,
-            )
+            IconButton(
+                onPressed: () {
+                  //deleteContact(contact.id);
+                  callback();
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.grey,
+                ))
           ],
         ),
       ),

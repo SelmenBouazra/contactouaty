@@ -67,6 +67,12 @@ class ContactDataBase {
     return List.generate(maps.length, (i) => Contact.fromJson2(maps[i]));
   }
 
+  Future deleteContact(int? id) async {
+    final Database db = await instance.database;
+    deleteOption(id);
+    await db.delete(_contactTableName, where: 'id = ?', whereArgs: [id]);
+  }
+
   Future insertOption(int id, List<ContactOption> contactOptions) async {
     final Database db = await instance.database;
     for (var option in contactOptions) {
@@ -77,8 +83,14 @@ class ContactDataBase {
 
   Future<List<ContactOption>> getAllOption(int? id) async {
     final Database db = await instance.database;
+
     final List<Map<String, dynamic>> maps = await db
         .query(_optionTableName, where: 'contact_id = ?', whereArgs: [id]);
     return List.generate(maps.length, (i) => ContactOption.fromJson(maps[i]));
+  }
+
+  Future deleteOption(int? id) async {
+    final Database db = await instance.database;
+    await db.delete(_optionTableName, where: 'contact_id = ?', whereArgs: [id]);
   }
 }

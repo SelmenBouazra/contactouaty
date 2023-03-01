@@ -9,7 +9,8 @@ import '../data/contact.dart';
 import 'home_page.dart';
 
 class CreateCardPage extends StatefulWidget {
-  const CreateCardPage({Key? key}) : super(key: key);
+  const CreateCardPage({Key? key, this.contact}) : super(key: key);
+  final Contact? contact;
 
   @override
   State<CreateCardPage> createState() => _CreateCardPageState();
@@ -25,20 +26,49 @@ class _CreateCardPageState extends State<CreateCardPage> {
   final TextEditingController linkedInController = TextEditingController();
   final TextEditingController whatsUpController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.contact != null) {
+      nameController.text = widget.contact?.name ?? "";
+      jobController.text = widget.contact?.job ?? "";
+      emailController.text = widget.contact?.contactOptions
+              .firstWhere(
+                (element) => element.name == "Email",
+              )
+              .url ??
+          "";
+      facebookController.text = widget.contact?.contactOptions
+              .firstWhere((element) => element.name == "Facebook")
+              .url ??
+          "";
+      instagramController.text = widget.contact?.contactOptions
+              .firstWhere((element) => element.name == "Instagram")
+              .url ??
+          "";
+      tiktokController.text = widget.contact?.contactOptions
+              .firstWhere((element) => element.name == "tiktok")
+              .url ??
+          "";
+      linkedInController.text = widget.contact?.contactOptions
+              .firstWhere((element) => element.name == "linkedin")
+              .url ??
+          "";
+      whatsUpController.text = widget.contact?.contactOptions
+              .firstWhere((element) => element.name == "WhatsApp")
+              .url ??
+          "";
+    }
+  }
+
   Contact _onCreateCardClick() {
     final contacts = [
-      if (facebookController.text.isNotEmpty)
-        ContactOption("Facebook", facebookController.text, "facebook.png"),
-      if (instagramController.text.isNotEmpty)
-        ContactOption("Instagram", instagramController.text, "instagram.png"),
-      if (tiktokController.text.isNotEmpty)
-        ContactOption("tiktok", tiktokController.text, "tiktok.png"),
-      if (emailController.text.isNotEmpty)
-        ContactOption("Email", emailController.text, "gmail.png"),
-      if (linkedInController.text.isNotEmpty)
-        ContactOption("linkedin", linkedInController.text, "linkedin.png"),
-      if (whatsUpController.text.isNotEmpty)
-        ContactOption("WhatsApp", whatsUpController.text, "WhatsApp.png")
+      ContactOption("Facebook", facebookController.text, "facebook.png"),
+      ContactOption("Instagram", instagramController.text, "instagram.png"),
+      ContactOption("tiktok", tiktokController.text, "tiktok.png"),
+      ContactOption("Email", emailController.text, "gmail.png"),
+      ContactOption("linkedin", linkedInController.text, "linkedin.png"),
+      ContactOption("WhatsApp", whatsUpController.text, "WhatsApp.png")
     ];
 
     return Contact(null, nameController.text, jobController.text, contacts);

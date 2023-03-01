@@ -24,7 +24,7 @@ class _MyContactsState extends State<MyContacts> {
         future: getContact(),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Placeholder();
+            return Column();
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -45,6 +45,9 @@ class _MyContactsState extends State<MyContacts> {
                     itemBuilder: (context, position) {
                       return ContactItem(
                         contact: contacts[position],
+                        callback: () {
+                          deleteContact(contacts[position].id);
+                        },
                       );
                     }),
               )
@@ -71,12 +74,16 @@ class _MyContactsState extends State<MyContacts> {
   Future<void> insetScanContact(String value) async {
     Contact contact = Contact.fromJson(jsonDecode(value));
     await ContactDataBase.instance.insertContact(contact);
-    List<Contact> allContacts = await ContactDataBase.instance.getAllContacts();
-    allContacts;
   }
 
   Future<void> getContact() async {
-    List<Contact> allContacts = await ContactDataBase.instance.getAllContacts();
-    contacts = allContacts;
+    contacts = await ContactDataBase.instance.getAllContacts();
+  }
+
+  Future deleteContact(int? id) async {
+    await ContactDataBase.instance.deleteContact(id);
+    setState(() {
+      contacts;
+    });
   }
 }

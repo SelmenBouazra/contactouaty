@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/contact.dart';
 import '../../data/contact_option.dart';
+import '../create_card_page.dart';
 import 'option_contact_item.dart';
 
 class MyCard extends StatelessWidget {
@@ -25,8 +26,22 @@ class MyCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 25.0,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CreateCardPage(contact: contact)));
+                    },
+                    icon: const Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    ))
+              ],
             ),
             Container(
               child: const CircleAvatar(

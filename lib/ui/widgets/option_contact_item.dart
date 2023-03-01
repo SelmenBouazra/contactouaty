@@ -1,5 +1,6 @@
 import 'package:contactouaty/data/contact_option.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OptionContactItem extends StatelessWidget {
   const OptionContactItem({
@@ -8,6 +9,13 @@ class OptionContactItem extends StatelessWidget {
   }) : super(key: key);
 
   final ContactOption contactOption;
+
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse('https://$url');
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,9 @@ class OptionContactItem extends StatelessWidget {
             ),
             radius: 20,
           ),
-          onTap: () {}),
+          onTap: () {
+            _launchUrl(contactOption.url);
+          }),
     );
   }
 }

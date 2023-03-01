@@ -33,12 +33,6 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   }
 
   Future<void> _loadUserCard() async {
-/*    final Contact john =
-        Contact("name", "url", [ContactOption("name", "url", "image")]);
-    final int johnId = await ContactDataBase.instance.insertContact(john);
-    final List<Contact> people =
-        await ContactDataBase.instance.getAllContacts();*/
-
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _userCard = (prefs.getString('user_card') ?? "");
