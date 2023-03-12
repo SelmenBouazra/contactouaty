@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "784661230013",
+    "project_id": "contactouaty",
+    "storage_bucket": "contactouaty.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784661230013:android:d2d4d399096e207b42e2d4",
+        "android_client_info": {
+          "package_name": "tn.selmen.contactouaty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784661230013-mts29qklm7k6s47g0ijah3so0v99qa14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSpP2jcrDYAGrhy5aTwU6hQwA27UbOccE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784661230013-mts29qklm7k6s47g0ijah3so0v99qa14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
